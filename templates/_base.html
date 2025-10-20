@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fighting Fantasy</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" >
+        <link href="https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap" rel="stylesheet">
+        <script src="{{ url_for('static', filename='js/index.js') }}"
+        type="module"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to Fighting Fantasy</h1>
+            <hr>
+        </header>
+        {% block content %}
+        {%  endblock %}
+    </body>
+</html>

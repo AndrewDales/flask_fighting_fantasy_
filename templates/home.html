@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <p><a href="{{ url_for('npc_screen') }}"> View the NPC roster</a></p>
+    <h2>Generate a PC</h2>
+    <div class="character-create-card">
+        {%  include "_pc_create_form.html" %}
+    </div>
+    <h2>Fighting Fantasy Battle</h2>
+        <div class="flex-container battle">
+        <div class="pc-content">
+            {%  include "_pc_content.html" %}
+        </div>
+
+        <div class="npc-content">
+            {% include "_npc_content.html" %}
+        </div>
+    </div>
+
+    <div class="flex-container battle-controls">
+        <button data-action="random_opponent">Find Enemy</button>
+        <button data-action="attack">Attack</button>
+    </div>
+
+    {% if config['DEBUG'] %}
+        {%  include "_debug.html" %}
+    {% endif %}
+{% endblock %}

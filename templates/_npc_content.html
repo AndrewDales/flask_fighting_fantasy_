@@ -1,0 +1,10 @@
+<!-- templates/_npc_content.html -->
+
+<div class="npc-card" data-id="{{ npc.id }}">
+    <h2>
+        <span data-npc-name="{{ npc.name }}"> {{ npc.name }}</span>
+    </h2>
+    <p> Skill: {{ npc.skill }}</p>
+    <p> Stamina: {{ npc.stamina }}</p>
+    <button data-action="delete_character">✨ Delete NPC</button>
+</div>

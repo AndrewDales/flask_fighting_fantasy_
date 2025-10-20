@@ -1,0 +1,250 @@
+# swagger.yaml
+
+openapi: 3.0.3
+info:
+  title: Fighting Fantasy Flask API
+  description: An API to run fighting fantasy
+  contact:
+    name: Andrew Dales
+    email: agdales@yahoo.co.uk
+  version: 1.0.0
+
+servers:
+  - url: '/api'
+
+components:
+  schemas:
+    PlayerCharacter:
+      description: "A fighting fantasy player character"
+      type: "object"
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        skill:
+          type: integer
+        stamina:
+          type: integer
+        luck:
+          type: integer
+
+    Character:
+      description: "A fighting fantasy character"
+      type: "object"
+      required:
+        - name
+      properties:
+        name:
+          type: "string"
+        skill:
+          type: integer
+        stamina:
+          type: integer
+        luck:
+          type: integer
+
+  parameters:
+    character_id:
+      name: "character_id"
+      description: "ID of character (NPC or PC)"
+      in: path
+      required: true
+      schema:
+        type: "string"
+    character_name:
+      name: "character_name"
+      description: "name of character"
+      in: path
+      required: true
+      schema:
+        type: "string"
+
+paths:
+  /characters:
+    get:
+      operationId: "routes.characters.read_all"
+      tags:
+        - Character
+      summary: "Read the list of all the characters"
+      responses:
+        "200":
+          description: "Successfully read character list"
+
+    post:
+      operationId: "routes.characters.create"
+      tags:
+        - Character
+      summary: "Create a character"
+      requestBody:
+        description: "Character to create"
+        required: True
+        x-body-name: "character"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Character"
+      responses:
+        "201":
+          description: "Successfully created person"
+
+  /characters/{character_id}:
+    get:
+      operationId: "routes.characters.read_one"
+      tags:
+        - Character
+      summary: "Read one character"
+      parameters:
+        - $ref: "#/components/parameters/character_id"
+      responses:
+        "200":
+          description: "Successfully read character"
+    delete:
+      operationId: "routes.characters.delete"
+      tags:
+        - Character
+      summary: "Delete a character by ID"
+      parameters:
+        - $ref: "#/components/parameters/character_id"
+      responses:
+        "200":
+          description: "Character successfully deleted"
+        "404":
+          description: "Character not found"
+    patch:
+      operationId: "routes.characters.update_stamina"
+      tags:
+        - Character
+      parameters:
+        - $ref: "#/components/parameters/character_id"
+      summary: "Update a character's stamina"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stamina:
+                  type: integer
+                  description: "New stamina for the character"
+      responses:
+        "200":
+          description: "Character stamina successfully updated"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Character not found"
+
+
+
+  /non_player_characters:
+    get:
+      operationId: "routes.characters.read_npcs"
+      tags:
+        - NonPlayerCharacter
+      summary: "Read the list of all the non-player characters"
+      responses:
+        "200":
+          description: "Successfully read npc list"
+    post:
+      operationId: "routes.characters.create_npc"
+      tags:
+        - NonPlayerCharacter
+      summary: "Create a non-player character"
+      requestBody:
+        description: "Character to create"
+        required: True
+        x-body-name: "character"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Character"
+      responses:
+        "201":
+          description: "Successfully created person"
+
+  /non_player_characters/random:
+    get:
+      operationId: "routes.characters.read_random_npc"
+      tags:
+        - NonPlayerCharacter
+      summary: "Get a random non-player character"
+      responses:
+        "200":
+          description: "Successfully read random NPC"
+
+
+  /player_characters:
+    get:
+      operationId: "routes.characters.read_pcs"
+      tags:
+        - PlayerCharacter
+      summary: "Read the list of all the player characters"
+      responses:
+        "200":
+          description: "Successfully read character list"
+    post:
+      operationId: "routes.characters.generate_pc"
+      tags:
+        - PlayerCharacter
+      summary: "Generate a new pc by rolling"
+      requestBody:
+        description: "Character to create"
+        required: True
+        x-body-name: "character"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Character"
+
+      #      requestBody:
+#        description: "Name of player character"
+#        required: True
+#        x-body-name: "player_character"
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/parameters/character_name'
+      responses:
+        "201":
+          description: "Successfully rolled dice to generate a new player character"
+
+  /fight_round:
+    post:
+      operationId: "routes.fights.fight_round"
+      tags:
+        - Fight
+      summary: "Simulate a round of fighting where one character damages another"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - attacker_id
+                - defender_id
+              properties:
+                attacker_id:
+                  type: string
+                  description: id of the attacking character
+                defender_id:
+                  type: string
+                  description: id of the defending character
+      responses:
+        "200":
+          description: "Fight round processed successfully"
+          #          content:
+          #            application/json:
+          #              schema:
+          #                type: object
+          #                properties:
+          #                  message:
+          #                    type: string
+          #                  remaining_stamina:
+          #                    type: integer
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Defender not found"

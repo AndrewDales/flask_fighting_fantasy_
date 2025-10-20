@@ -1,0 +1,109 @@
+:root {
+    --bg-color: #fdf6e3;
+    --card-bg: #fefae0;
+    --text-color: #2c1d0f;
+    --heading-color: #4b2e1e;
+    --border-color: #a67c52;
+    --input-bg: #fffaf0;
+    --button-bg: #8b5e3c;
+    --button-hover: #a67c52;
+    --font-body: 'Monda', 'Garamond', 'Georgia', 'serif';
+    --font-heading: 'Cinzel', 'serif';
+}
+
+body {
+    background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    font-family: var(--font-body), serif;
+    color: var(--text-color);
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    font-family: var(--font-heading), serif;
+    color: var(--heading-color);
+    text-align: center;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 0.5rem;
+    border: 2px solid var(--border-color);
+    justify-content: center;
+}
+
+/*.npc-list {*/
+/*    justify-content: center;*/
+/*}*/
+
+.battle {
+    justify-content: space-around;
+    align-items: center;
+}
+
+.npc-card, .pc-card {
+    background-color: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    width: 250px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease-in-out;
+}
+
+.npc-card:hover, .pc-card:hover {
+    transform: scale(1.05);
+}
+
+.npc-card p {
+    margin: 0.5rem 0;
+}
+
+.npc-create-card, .character-create-card{
+    background-color: var(--card-bg);
+    border: 2px dashed var(--border-color);
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+    width: 250px;
+    padding: 1rem;
+    margin-top: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+form input {
+    width: 95%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+}
+
+button {
+    font-family: inherit;
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+.debug-card {
+    visibility: hidden;
+}
+
+

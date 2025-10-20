@@ -1,0 +1,11 @@
+<!-- templates/_pc_content.html -->
+
+<div class="pc-card" data-id="{{ pc.id }}">
+    <h2>
+        <span data-pc-name="{{ pc.name }}"> {{ pc.name }}</span>
+    </h2>
+    <p> Skill: {{ pc.skill }}</p>
+    <p> Stamina: {{ pc.stamina }}</p>
+    <p> Luck: {{ pc.luck }}</p>
+    <button data-action="delete_character">✨ Delete Player Character</button>
+</div>

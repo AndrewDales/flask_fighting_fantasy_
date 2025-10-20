@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <p><a href="{{ url_for('home') }}">Return to Battle</a></p>
+    <h2>NPC Roster</h2>
+    <div class="flex-container npc-list">
+        {%  for npc in npcs %}
+            {%  include "_npc_content.html" %}
+        {% endfor %}
+    </div>
+    <h2>Create new NPC</h2>
+    <div class="npc-create-card">
+            {%  include "_npc_create_form.html" %}
+    </div>
+{%  endblock %}
