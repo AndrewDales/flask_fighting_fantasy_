@@ -16,10 +16,17 @@ def fight_round():
     attacker = db.session.get(m.Character, attacker_id)
     defender = db.session.get(m.Character, defender_id)
 
+    # Validate that both characters exist
+    if not attacker or not defender:
+        return jsonify({"message": "Attacker or Defender not found"}), 404
+
     fight = Fight(attacker, defender)
     results = fight.fight_round()
     print(results)
 
+    # Persist stamina changes
+    # db.session.add(attacker)
+    # db.session.add(defender)
     db.session.commit()
 
     return jsonify(results)

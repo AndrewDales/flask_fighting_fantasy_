@@ -2,6 +2,8 @@
 
 from datetime import datetime, UTC
 import random
+from typing import Optional
+from sqlalchemy.orm import Mapped, mapped_column
 from marshmallow_sqlalchemy import fields, auto_field
 
 from config import db, ma
@@ -9,14 +11,15 @@ from config import db, ma
 
 class Character(db.Model):
     __tablename__ = "character"
-    id: db.Mapped[int] = db.mapped_column(primary_key=True)
-    name: db.Mapped[str]
-    skill: db.Mapped[int] = db.mapped_column(db.Integer, default=0)
-    stamina: db.Mapped[int] = db.mapped_column(db.Integer, default=0)
-    max_stamina: db.Mapped[int] = db.mapped_column(db.Integer, default=0)
-    type: db.Mapped[str] = db.mapped_column(db.String, default="non_player_character")
-    timestamp: db.Mapped[datetime] = db.mapped_column(
-        db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str]
+    skill: Mapped[int] = mapped_column(default=0)
+    stamina: Mapped[int] = mapped_column(default=0)
+    max_stamina: Mapped[int] = mapped_column(default=0)
+    type: Mapped[str] = mapped_column(default="non_player_character")
+    # Use callables for defaults so a new timestamp is generated for each new row
+    timestamp: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC)
     )
 
     __mapper_args__ = {
@@ -33,8 +36,8 @@ class Character(db.Model):
 
 
 class PlayerCharacter(Character):
-    luck: db.Mapped[int] = db.mapped_column(nullable=True)
-    max_luck: db.Mapped[int] = db.mapped_column(nullable=True)
+    luck: Mapped[Optional[int]] = mapped_column(nullable=True)
+    max_luck: Mapped[Optional[int]] = mapped_column(nullable=True)
 
     __mapper_args__ = {
         "polymorphic_identity": "player_character"
