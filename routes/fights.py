@@ -25,8 +25,6 @@ def fight_round():
     print(results)
 
     # Persist stamina changes
-    # db.session.add(attacker)
-    # db.session.add(defender)
     db.session.commit()
 
     return jsonify(results)

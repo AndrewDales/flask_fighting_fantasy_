@@ -3,6 +3,7 @@
 import { DebugForm } from "./debug.js";
 import { nonPlayerCharacters } from "./characters.js"
 import { PlayerCharacters } from "./characters.js";
+import { fightControlForm } from "./controls.js";
 
 function main() {
     new nonPlayerCharacters()
@@ -15,6 +16,11 @@ function main() {
         // debug.handleSendClick(null)
         debug.showResponse("");
     }
+
+    if (document.querySelector(".battle-controls")) {
+        new fightControlForm()
+    }
+
     }
 
 main();

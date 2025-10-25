@@ -1,5 +1,5 @@
 /* debug.js */
-import { getDataFetch } from "./request.js";
+import {getDataFetch} from "./request.js";
 
 export class DebugForm {
   constructor() {
@@ -22,19 +22,19 @@ export class DebugForm {
     code.innerText = "";
   }
 
-  handleSendClick(event) {
+  async handleSendClick(event) {
       if (event) {
-        event.preventDefault();
-    }
+          event.preventDefault();
+      }
       const input = document.querySelector(".debug-card input")
       const endpoint = input.value;
-      getDataFetch(endpoint, this.showResponse)
+      await getDataFetch(endpoint, this.showResponse)
 
   }
 
   showResponse(data) {
       const debugCard = document.querySelector(".debug-card")
       let code = debugCard.querySelector("code")
-      code.innerText = data;
+      code.innerText = JSON.stringify(data, null, '\t');
   }
 }
