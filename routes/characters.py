@@ -1,7 +1,7 @@
 # characters.py
 """Contains the routes triggered by api calls relating to characters"""
 
-from flask import abort, request, jsonify
+from flask import abort, request, jsonify, session
 from sqlalchemy import func
 import pprint as pp
 
@@ -28,11 +28,13 @@ def read_npcs():
     return m.npcs_schema.dump(npcs), 200
 
 def read_random_npc():
-    npc_qry = (db.select(m.Character)
+    npc_qry = (db.select(m.Character.id)
            .where(m.Character.type=="non_player_character")
            .order_by(func.random()))
-    npc = db.session.scalars(npc_qry).first()
-    return m.npc_schema.dump(npc), 200
+    npc_id = db.session.scalars(npc_qry).first()
+    # Records the id of the randomly selected npc in the session dictionary
+    session['npc_id'] = npc_id
+    return {"npc_id": npc_id}, 200
 
 def read_one(character_id):
     character = db.session.get(m.Character, character_id)
@@ -44,11 +46,13 @@ def read_one(character_id):
         return jsonify({"message": f"Character with ID {character_id} not found"}), 404
 
 def generate_pc(character):
-    new_character = m.character_schema.load(character, session=db.session)
-    player_character = new_character.name
-    new_pc = m.PlayerCharacter.generate_player(player_character)
+    """ Generates a PlayerCharacter given a dictionary with a 'name' key"""
+    new_pc = m.PlayerCharacter.generate_player(character['name'])
+
     db.session.add(new_pc)
     db.session.commit()
+    # Records the id of the newly created player in the session dictionary
+    session['pc_id'] = new_pc.id
     return m.pc_schema.dump(new_pc), 201
 
 def create(character):

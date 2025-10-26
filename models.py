@@ -3,6 +3,8 @@
 from datetime import datetime, UTC
 import random
 from typing import Optional
+
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import Mapped, mapped_column
 from marshmallow_sqlalchemy import fields, auto_field
 
@@ -30,6 +32,10 @@ class Character(db.Model):
     @staticmethod
     def dice_roll(num_dice):
         return sum(random.randint(1,6) for _ in range(num_dice))
+
+    @hybrid_property
+    def is_dead(self):
+        return self.stamina <= 0
 
     def __repr__(self):
         return f"Character(name='{self.name}', skill='{self.skill}', stamina='{self.stamina}')"

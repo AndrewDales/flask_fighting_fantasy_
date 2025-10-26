@@ -1,6 +1,6 @@
 # app.py
 
-from flask import render_template, url_for, jsonify, redirect
+from flask import render_template, url_for, jsonify, redirect, session
 import requests
 import config
 
@@ -30,10 +30,16 @@ def list_routes():
 @app.route('/home')
 def home():  # put application's code here
     # Get a random non-player character via the random npc api
-    npc_url = url_for('/api.routes_characters_read_random_npc', _external=True)
+    if not ('npc_id' in session):
+        npc_url = url_for('/api.routes_characters_read_random_npc', _external=True)
+        npc_id_response = requests.get(npc_url)
+        session['npc_id'] = npc_id_response.json().npc_id
+    if not ('pc_id' in session):
+        session['pc_id'] = 17
+    npc_url = url_for('/api.routes_characters_read_one', character_id=session['npc_id'], _external=True)
     response = requests.get(npc_url)
     npc_data = response.json()
-    pc_url = url_for('/api.routes_characters_read_one', character_id=17, _external=True)
+    pc_url = url_for('/api.routes_characters_read_one', character_id=session['pc_id'], _external=True)
     response = requests.get(pc_url)
     pc_data = response.json()
     return render_template("home.html", npc=npc_data, pc=pc_data)
@@ -50,8 +56,8 @@ def npc_screen():
 # Route to display a single character card
 @app.route('/character/<int:character_id>')
 def character_card(character_id):
-    npc_card_url = url_for('/api.routes_characters_read_one', character_id=character_id, _external=True)
-    response = requests.get(npc_card_url)
+    char_card_url = url_for('/api.routes_characters_read_one', character_id=character_id, _external=True)
+    response = requests.get(char_card_url)
     if response.ok:
         character_data = response.json()
         if character_data['type'] == 'player_character':

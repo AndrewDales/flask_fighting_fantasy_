@@ -169,10 +169,10 @@ paths:
       operationId: "routes.characters.read_random_npc"
       tags:
         - NonPlayerCharacter
-      summary: "Get a random non-player character"
+      summary: "Get the id for a random NPC"
       responses:
         "200":
-          description: "Successfully read random NPC"
+          description: "Successfully the id for a random NPC"
 
 
   /player_characters:
@@ -217,21 +217,22 @@ paths:
         - Fight
       summary: "Simulate a round of fighting where one character damages another"
       requestBody:
-        required: true
+        required: false
         content:
           application/json:
             schema:
               type: object
-              required:
-                - attacker_id
-                - defender_id
+#              required:
+#                - attacker_id
+#                - defender_id
               properties:
                 attacker_id:
-                  type: string
+                  type: integer
                   description: id of the attacking character
                 defender_id:
-                  type: string
+                  type: integer
                   description: id of the defending character
+
       responses:
         "200":
           description: "Fight round processed successfully"

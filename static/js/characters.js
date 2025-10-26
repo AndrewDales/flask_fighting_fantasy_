@@ -82,12 +82,12 @@ class CreateCharacterForm {
 
 class CreatePCForm extends CreateCharacterForm{
 
-    handleCreateClick(event) {
+    async handleCreateClick(event) {
         const jsonData = super.getFormData(event)
         if (!jsonData) return
 
         // Send name as JSON to the api endpoint which will roll up a new PC
-        sendJSONFetch(jsonData, "POST", "/api/player_characters", this.addCharacterToList);
+        await sendJSONFetch(jsonData, "POST", "/api/player_characters", this.addCharacterToList);
         this.form.reset();
   }
 
@@ -110,13 +110,13 @@ class CreatePCForm extends CreateCharacterForm{
 
 class CreateNPCForm extends CreateCharacterForm {
 
-    handleCreateClick(event) {
+    async handleCreateClick(event) {
         // Gets data from form, validates it and puts it into JSON form
         const jsonData = super.getFormData(event)
         if (!jsonData) return
 
         // Send the data as JSON to the api endpoint, send the return data to addNPCToList
-        sendJSONFetch(jsonData, "POST", "api/non_player_characters", this.addNPCToList);
+        await sendJSONFetch(jsonData, "POST", "api/non_player_characters", this.addNPCToList);
 
         this.form.reset();
     }
@@ -149,9 +149,9 @@ class CreateNPCForm extends CreateCharacterForm {
 
 
 
-class CharacterControl {
+export class CharacterControl {
     constructor(el) {
-        this.characterCard = el;
+        this.characterCard = (el.classList.contains("npc-card")) ? el : el.querySelector(".npc-card");
         this.characterID = this.characterCard.getAttribute("data-id")
         this.deleteButton = el.querySelector("button[data-action='delete_character']");
         this.deleteButton.addEventListener(

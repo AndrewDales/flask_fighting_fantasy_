@@ -28,7 +28,9 @@ class Fight:
             self.attacker.stamina -= 1
             self.defender.stamina -= 1
 
-        return {"message":
+        return {"attacker_id": self.attacker.id,
+                "defender_id": self.defender.id,
+                "message":
                     f"Combat round occurred between Character {self.attacker.id} and Character {self.defender.id}",
                 "result": result,
                 "rolls": rolls,
