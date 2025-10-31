@@ -197,15 +197,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Character"
-
-      #      requestBody:
-#        description: "Name of player character"
-#        required: True
-#        x-body-name: "player_character"
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/parameters/character_name'
       responses:
         "201":
           description: "Successfully rolled dice to generate a new player character"
@@ -222,9 +213,6 @@ paths:
           application/json:
             schema:
               type: object
-#              required:
-#                - attacker_id
-#                - defender_id
               properties:
                 attacker_id:
                   type: integer

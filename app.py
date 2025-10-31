@@ -1,6 +1,6 @@
 # app.py
 
-from flask import render_template, url_for, jsonify, redirect, session
+from flask import render_template, url_for, jsonify, redirect, session, request
 import requests
 import config
 
@@ -15,6 +15,7 @@ db = config.db
 def index():
     return redirect(url_for('home'))
 
+
 # Add a Debug to show all the routes
 @app.route("/routes")
 def list_routes():
@@ -26,6 +27,7 @@ def list_routes():
             "rule": str(rule)
         })
     return jsonify(routes)
+
 
 @app.route('/home')
 def home():  # put application's code here
@@ -45,6 +47,7 @@ def home():  # put application's code here
     return render_template("home.html", npc=npc_data, pc=pc_data)
     # return render_template("home.html")
 
+
 @app.route('/npcs')
 def npc_screen():
     # Get all npc data from the API.
@@ -52,6 +55,7 @@ def npc_screen():
     response = requests.get(npc_url)
     data = response.json()
     return render_template("npcs.html", npcs=data)
+
 
 # Route to display a single character card
 @app.route('/character/<int:character_id>')
@@ -69,6 +73,12 @@ def character_card(character_id):
     else:
         return f"Character with id {character_id} not found", 404
 
+
+# Route to display a round of battle
+@app.route('/battle_round', methods=['POST', ])
+def battle_round():
+    round_data = request.get_json()
+    return render_template("_round_report.html", round=round_data)
 
 if __name__ == '__main__':
     app.run(log_level='debug')

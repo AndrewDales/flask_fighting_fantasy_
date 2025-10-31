@@ -6,8 +6,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" >
         <link href="https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap" rel="stylesheet">
-        <script src="{{ url_for('static', filename='js/index.js') }}"
-        type="module"></script>
+
     </head>
     <body>
         <header>
@@ -16,5 +15,9 @@
         </header>
         {% block content %}
         {%  endblock %}
+        <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
+        <script src="{{ url_for('static', filename='js/index.js') }}" type="module"></script>
+
+
     </body>
 </html>

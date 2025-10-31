@@ -2,6 +2,7 @@
 
 import {getDataFetch, sendJSONFetch} from "./request.js";
 import { CharacterControl } from "./characters.js"
+import { dice_pc, dice_npc } from "./index.js"
 
 export class fightControlForm {
     constructor() {
@@ -34,19 +35,18 @@ export class fightControlForm {
     async showChar(charId, location=".npc-content") {
         // Fetch the rendered HTML for the server
         if (!charId) return;
-        const cardHtml = await fetch(`/character/${charId}`)
-            .then(res => res.text());
+        const response = await fetch(`/character/${charId}`)
+        if (!response.ok) {
+            throw new Error(`Character with id ${charId} not found`)
+        }
+        const cardHtml = await response.text()
+
+        // Find the required location and add the HTML for the new card
         const charContentDiv = document.querySelector(location)
-        // Add the HTML for the new card
         if (charContentDiv) charContentDiv.innerHTML = cardHtml;
         // Activate the card controls
         new CharacterControl(charContentDiv)
     }
-
-    // async showPC(pc_id) {
-    //     if (!pc_id) return;
-    //     const cardHtml = await this.fetchCharacter(pc_id);
-    // }
 
     async handleAttack(event) {
         if (event) {
@@ -67,10 +67,23 @@ export class fightControlForm {
         if (roundResults.result === "lost" || roundResults.result === "draw") {
             await this.showChar(roundResults.attacker_id, ".pc-content")
         }
+
+        dice_pc.roll([3, 4])
+
+        const response = await fetch('/battle_round', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(roundResults)
+        });
+        if (!response.ok) {
+            throw new Error('Battle Round report not generated')
+        }
+
+        const reportHTML = await response.text()
+
+        const report_el = document.querySelector(".battle-report")
+        report_el.insertAdjacentHTML("beforeend", reportHTML)
+        report_el.scrollTop = report_el.scrollHeight
+        console.log(reportHTML)
     }
-    //
-    // async fetchCharacter(charID) {
-    //     return await fetch(`/character/${charID}`)
-    //         .then(res => res.text());
-    // }
 }

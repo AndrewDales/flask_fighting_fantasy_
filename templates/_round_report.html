@@ -1,0 +1,9 @@
+<!-- templates/_round_report.html -->
+
+<div class="battle-round">
+    <p> {{ round.message }}</p>
+    <p> {{ round.attacker_name }} rolled {{ round.rolls['attacker'] }} for a total score of {{ round.scores['attacker'] }}</p>
+    <p> {{ round.defender_name }} rolled {{ round.rolls['defender'] }} for a total score of {{ round.scores['defender'] }}</p>
+    <p> {{ round.attacker_name }} {{ round.result }}</p>
+    <br>
+</div>

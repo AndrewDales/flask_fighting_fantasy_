@@ -24,14 +24,16 @@ class Fight:
             result = "lost"
             self.attacker.stamina -= 2
         else:
-            result = "draw"
+            result = "drew"
             self.attacker.stamina -= 1
             self.defender.stamina -= 1
 
         return {"attacker_id": self.attacker.id,
                 "defender_id": self.defender.id,
+                "attacker_name": self.attacker.name,
+                "defender_name": self.defender.name,
                 "message":
-                    f"Combat round occurred between Character {self.attacker.id} and Character {self.defender.id}",
+                    f"Combat round occurred between {self.attacker.name} and {self.defender.name}",
                 "result": result,
                 "rolls": rolls,
                 "scores": scores,

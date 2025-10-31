@@ -5,7 +5,7 @@ import {sendJSONFetch} from "./request.js";
 export class nonPlayerCharacters {
     constructor() {
         // Finds all the NPC cards and activates the controls (delete button) on the card
-        this.allNpcCards = document.querySelectorAll(".npc-card");
+        this.allNpcCards = document.querySelectorAll(".char-card");
         this.activateNpcControls();
 
         // If there is an NPC creation card on the page - activate it
@@ -92,15 +92,14 @@ class CreatePCForm extends CreateCharacterForm{
   }
 
     async addCharacterToList(newCharacter) {
-        // Remove other characters
-        document.querySelectorAll(".pc-card").forEach(el => el.remove())
-
         // Fetch the rendered HTML for the server
         const cardHtml = await fetch(`/character/${newCharacter.id}`).then(res => res.text());
 
-        // Add the new card into the first element with class "pc-content"
+        // Find the element with class "pc-content"
         const pc_div = document.querySelector(".pc-content");
-        pc_div.insertAdjacentHTML("afterbegin", cardHtml);
+
+        // Replace the html content with the new card information
+        pc_div.innerHTML = cardHtml
 
         // Activate the new form
         const newForm = document.querySelector(`div[data-id='${newCharacter.id}']`);
@@ -151,7 +150,7 @@ class CreateNPCForm extends CreateCharacterForm {
 
 export class CharacterControl {
     constructor(el) {
-        this.characterCard = (el.classList.contains("npc-card")) ? el : el.querySelector(".npc-card");
+        this.characterCard = (el.classList.contains("char-card")) ? el : el.querySelector(".char-card");
         this.characterID = this.characterCard.getAttribute("data-id")
         this.deleteButton = el.querySelector("button[data-action='delete_character']");
         this.deleteButton.addEventListener(

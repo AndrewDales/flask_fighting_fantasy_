@@ -34,17 +34,13 @@ h1, h2 {
     justify-content: center;
 }
 
-/*.npc-list {*/
-/*    justify-content: center;*/
-/*}*/
-
 .battle {
     justify-content: space-around;
     align-items: center;
 }
 
-.npc-card, .pc-card {
-    background-color: var(--bg-color);
+.char-card, .char-card {
+    background-color: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: 10px;
     padding: 1rem;
@@ -53,11 +49,11 @@ h1, h2 {
     transition: transform 0.2s ease-in-out;
 }
 
-.npc-card:hover, .pc-card:hover {
+.char-card:hover, .char-card:hover {
     transform: scale(1.05);
 }
 
-.npc-card p {
+.char-card p {
     margin: 0.5rem 0;
 }
 
@@ -101,6 +97,45 @@ button {
 button:hover {
     background-color: var(--button-hover);
 }
+
+
+.battle-report {
+    background-color: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    height: 250px;
+    overflow-y: auto;
+    margin: 1rem auto;
+    width: 90%;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.battle-round p {
+  margin: 0;
+  line-height: 1;
+}
+
+/*styling for dice tray*/
+.dice_wrapper {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+}
+
+.tray {
+    transform-origin: top left;
+    /*transform: scale(0.25);*/
+    background:var(--card-bg);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/*.cube {*/
+/*    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);*/
+/*}*/
 
 .debug-card {
     visibility: visible;

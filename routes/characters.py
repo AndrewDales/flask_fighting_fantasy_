@@ -29,8 +29,9 @@ def read_npcs():
 
 def read_random_npc():
     npc_qry = (db.select(m.Character.id)
-           .where(m.Character.type=="non_player_character")
-           .order_by(func.random()))
+        .where(m.Character.type=="non_player_character")
+        .where(m.Character.is_dead==False)
+        .order_by(func.random()))
     npc_id = db.session.scalars(npc_qry).first()
     # Records the id of the randomly selected npc in the session dictionary
     session['npc_id'] = npc_id
